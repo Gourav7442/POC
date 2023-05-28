@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_4be51800_bfe8_4474_9827_f77bf61b00a1_Output_Payload = Array<{  employeeName: String,   employeeContact: String,   employeeId?: Number,   employeeAddress: String,   _?: Any}>
+

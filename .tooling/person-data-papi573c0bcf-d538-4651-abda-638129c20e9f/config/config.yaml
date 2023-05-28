@@ -1,0 +1,13 @@
+http:
+  host: "localhost"
+  listener:
+    port: "8083"
+  
+  requester1:
+    port: "8081"
+    path: "employees"
+  requester2:
+    port: "8082"
+    path: "person"
+ 
+  

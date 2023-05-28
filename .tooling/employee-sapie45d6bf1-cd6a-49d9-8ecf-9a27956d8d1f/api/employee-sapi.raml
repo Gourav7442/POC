@@ -1,0 +1,30 @@
+#%RAML 1.0
+title: Employee-SAPI
+
+types:
+  Employee: !include dataTypes/employeeType.raml
+
+/employees-sapi:
+  get:
+    description: Retrieve data from the employee database
+    responses:
+      200:
+        body:
+          application/json:
+            type: Employee[]
+            example: !include examples/employeeGetResp.raml
+
+  post:
+    description: Push data to the employee database
+    body:
+      application/json:
+        type: Employee[]
+        example: !include examples/employeePost.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              {
+                "message": "Employees created successfully"
+              }

@@ -1,0 +1,13 @@
+http:
+  host: "localhost"
+  listener:
+    port: "8083"
+  
+  requester1:
+    port: "8081"
+    path: "/api/employees-sapi"
+  requester2:
+    port: "8082"
+    path: "/api/person-sapi"
+ 
+  

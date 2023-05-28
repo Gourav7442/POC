@@ -1,0 +1,7 @@
+http:
+  host: "localhost"
+  port: "8082"
+  
+file:
+  directory: C:\Users\G68\OneDrive - Capgemini\Desktop\FinalAssessment
+  

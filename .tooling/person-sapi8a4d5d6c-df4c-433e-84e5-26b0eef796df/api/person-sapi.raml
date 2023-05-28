@@ -1,0 +1,14 @@
+#%RAML 1.0
+title: Person-SAPI
+
+types:
+  Person: !include dataType/personType.raml 
+/person-sapi:
+  /{name}:
+    get:
+      description: Retrieve details of a person by name
+      responses:
+        200:
+          body:
+            application/json:
+              type: Person[]
