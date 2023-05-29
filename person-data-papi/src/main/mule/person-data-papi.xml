@@ -46,15 +46,19 @@ output application/json
     </flow>
     <flow name="post:\person-data-papi:application\json:person-data-papi-config">
         <flow-ref doc:name="Flow Reference" doc:id="dafe2193-e5c2-4145-952f-ee3332990518" name="PostPersonEmployee"/>
-		<ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d15da7a4-6459-4d93-b35e-453d4257c46c">
+				<ee:transform doc:name="Transform Message" doc:id="ccf55f3b-9fcc-49f6-82cb-202331a6c1f8" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-  message: "Employees created successfully"
+	"Error" : "Duplicate Data"
 }]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
     </flow>
 </mule>

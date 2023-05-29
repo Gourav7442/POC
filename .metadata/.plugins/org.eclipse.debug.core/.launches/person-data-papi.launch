@@ -5,8 +5,8 @@
     <stringAttribute key="launch_mule_server_version" value="org.mule.tooling.server.4.4.0.ee"/>
     <stringAttribute key="maven.command.line" value=""/>
     <booleanAttribute key="maven.snapshot.updates" value="false"/>
-    <stringAttribute key="mule-agent-port" value="52280"/>
-    <stringAttribute key="mule-agent-token-auth" value="89543c51-11af-4119-8925-e28e163e3bc7"/>
+    <stringAttribute key="mule-agent-port" value="64231"/>
+    <stringAttribute key="mule-agent-token-auth" value="8eb9a1a4-22c8-4f22-8418-8171093a0d42"/>
     <listAttribute key="mule-project-names">
         <listEntry value="person-sapi"/>
         <listEntry value="person-data-papi"/>

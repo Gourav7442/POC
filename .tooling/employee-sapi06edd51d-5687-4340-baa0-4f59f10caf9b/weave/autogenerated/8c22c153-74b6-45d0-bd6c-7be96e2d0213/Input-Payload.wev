@@ -1,4 +1,0 @@
-%dw 2.0
-
-type auto_8c22c153_74b6_45d0_bd6c_7be96e2d0213_Input_Payload = Array<{  employeeName: String,   employeeContact: String,   employeeId?: Number,   employeeAddress: String,   _?: Any}>
-

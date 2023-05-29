@@ -9,3 +9,6 @@ database:
   password: "123456"
   databaseName: "FinalAssessment"
   
+file:
+  "directory": C:\Users\G68\OneDrive - Capgemini\Desktop\POC
+  

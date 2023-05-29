@@ -13,7 +13,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<http:request-connection host="${http.host}" port="${http.requester2.port}" />
 	</http:request-config>
 	<flow name="PostPersonEmployee" doc:id="a15d44f1-141d-47fd-8fc1-f7564538a6bb" >
-		<http:request method="POST" doc:name="Employee" doc:id="bca5c125-4ed7-41ad-bb33-a2f1a680d9f5" path="${http.requester1.path}" config-ref="HTTP_Request_configuration"/>
+		<http:request method="POST" doc:name="Employee" doc:id="bca5c125-4ed7-41ad-bb33-a2f1a680d9f5" path="${http.requester1.path}" config-ref="HTTP_Request_configuration">
+		</http:request>
 	</flow>
 	<flow name="GetNewPersonData" doc:id="dbd50c1a-1262-46b3-865d-d6db3bdb57e8" >
 		<set-variable value='#[attributes.uriParams.name]' doc:name="Set Variable" doc:id="23b79434-05c9-42bf-8b97-1ecb90cdd095" variableName="name"/>
@@ -24,7 +25,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 	"name" : vars.name
 }]]]></http:uri-params>
 		</http:request>
-		<http:request method="GET" doc:name="Employee" doc:id="32baf58f-0aa9-40c8-a137-15898e7dcd89" config-ref="HTTP_Request_configuration" path="${http.requester1.path}" target="employee"/>
+		<http:request method="GET" doc:name="Employee" doc:id="32baf58f-0aa9-40c8-a137-15898e7dcd89" config-ref="HTTP_Request_configuration" path="${http.requester1.path}" target="employee">
+		</http:request>
 		<ee:transform doc:name="Transform Message" doc:id="72f9b89b-5231-458d-9926-49a1924c9713" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -46,6 +48,6 @@ vars.person map(value, index)-> {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="491f4135-8d15-4faa-8df6-b9534dadb429" message='#["No Records Founds"]'/>
+		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="7f067a00-7d8c-4732-bc3b-96e8b0ccdb3c" message='#["Data not found"]'/>
 	</flow>
 </mule>

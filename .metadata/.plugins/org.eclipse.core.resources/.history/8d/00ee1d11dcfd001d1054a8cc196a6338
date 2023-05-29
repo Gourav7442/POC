@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="3e8a78e0-360e-4929-ae13-8fd535964227" >
+		<http:request-connection host="${http.host}" port="${http.requester1.port}" />
+	</http:request-config>
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="88e0ddae-fc38-44b0-8cb0-480f970af8ce" >
+		<http:request-connection host="${http.host}" port="${http.requester2.port}" />
+	</http:request-config>
+	<flow name="PostPersonEmployee" doc:id="a15d44f1-141d-47fd-8fc1-f7564538a6bb" >
+		<http:request method="POST" doc:name="Employee" doc:id="bca5c125-4ed7-41ad-bb33-a2f1a680d9f5" path="${http.requester1.path}" config-ref="HTTP_Request_configuration">
+		</http:request>
+	</flow>
+	<flow name="GetNewPersonData" doc:id="dbd50c1a-1262-46b3-865d-d6db3bdb57e8" >
+		<set-variable value='#[attributes.uriParams.name]' doc:name="Set Variable" doc:id="23b79434-05c9-42bf-8b97-1ecb90cdd095" variableName="name"/>
+		<http:request method="GET" doc:name="Person" doc:id="c6ae5f67-f037-41b8-a90a-19d4b48b13fe" target="person" config-ref="HTTP_Request_configuration1" path="${http.requester2.path}/{name}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"name" : vars.name
+}]]]></http:uri-params>
+		</http:request>
+		<http:request method="GET" doc:name="Employee" doc:id="32baf58f-0aa9-40c8-a137-15898e7dcd89" config-ref="HTTP_Request_configuration" path="${http.requester1.path}" target="employee">
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="72f9b89b-5231-458d-9926-49a1924c9713" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.person map(value, index)-> {
+	(vars.employee filter($.EmployeeName == vars.name replace "-" with " ")
+		map(value1, index1)-> {
+			Id: value1.EmployeeId,
+			Name: value1.EmployeeName,
+			Aadhar: value.PersonAadhar,
+			Contact: value1.EmployeeContact,
+			Address: value1.EmployeeAddress,
+			Zipcode: value.PersonZipcode as String
+		}
+		
+	)
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<validation:validate-size doc:name="Validate size" doc:id="28b34872-004b-47df-898b-bd75ab6d0bea" value="#[payload]" min="1" message='#["no records found"]'/>
+	</flow>
+</mule>
